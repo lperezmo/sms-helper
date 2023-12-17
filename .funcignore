@@ -1,0 +1,11 @@
+.venv
+.github
+.vscode
+docs
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+helper_ai.py
+test_error.py
