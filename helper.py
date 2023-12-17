@@ -11,8 +11,6 @@ from twilio.rest import Client
 #------------------------------------#
 ACCOUNT_SID = os.environ["ACCOUNT_SID"]
 AUTH_TOKEN = os.environ["AUTH_TOKEN"]
-TWIL_NUMBER = os.environ["TWIL_NUMBER"]
-TWIL_EXAMPLE_NUMBER = os.environ["TWIL_EXAMPLE_NUMBER"]
 
 #------------------------------------#
 # OpenAI and Twilio Clients

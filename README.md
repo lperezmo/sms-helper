@@ -14,8 +14,6 @@ SMS Helper is an AI-powered, function-calling text assistant designed to process
 2. Create required environment variables on your function.
     - `ACCOUNT_SID`
     - `AUTH_TOKEN`
-    - `TWIL_NUMBER`
-    - `TWIL_EXAMPLE_NUMBER`
     - `OPENAI_API_KEY`
     - `SENTRY_DSN`
     
