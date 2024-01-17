@@ -2,9 +2,9 @@ import os
 import logging
 import sentry_sdk
 import azure.functions as func
-import __app__.helper as helper
+# import __app__.helper as helper
 # Use alternative helper to send less messages
-# import __app__.alternative_helper as alternative_helper
+import __app__.alternative_helper as alternative_helper
 from sentry_sdk.integrations.serverless import serverless_function
 
 #------------------------------------#
