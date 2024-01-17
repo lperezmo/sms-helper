@@ -50,7 +50,9 @@ def process_incoming_message(PIN, incoming_message, send_to, send_from):
             if message.body.strip() == PIN:
                 sent_pin = True
         if sent_pin:
-            follow_up_reply = get_follow_up_text(incoming_message)
+            follow_up_reply = get_follow_up_text(send_to=send_to,
+                                    send_from=send_from,
+                                    incoming_message=incoming_message)
             return follow_up_reply
         else:
             return f"Please provide security PIN to continue. Hint: {PIN}"
