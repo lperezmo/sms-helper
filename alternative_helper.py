@@ -40,10 +40,10 @@ def check_pin_and_reply(PIN, incoming_message):
         Reply message
     """
     if incoming_message.strip() == PIN:
-        return """Welcome back lord overlord Luis.
-    - I can schedule calls, texts, and reminders for you.
-    - I can also just answer questions or anything like that.
-    - Text 'yolo' to see this message again"""
+        return """Welcome to Hess Services AI Assistant.
+    - I can schedule calls and text reminders for you.
+    - I can also just answer questions, within reason.
+    - Text 'hess' to see this message again"""
     else:
         messages = CLIENT.messages.list(from_=send_to, to=send_from)
         sent_pin = False
@@ -97,7 +97,7 @@ def get_time():
 #-----------------------------------------#
 # Generate JSON body to schedule reminder
 #-----------------------------------------#
-def schedule_reminder(natural_language_request):
+def schedule_reminder(natural_language_request, number_from):
     """
     Generate JSON body to schedule reminder
     
@@ -110,12 +110,9 @@ def schedule_reminder(natural_language_request):
     -------
     JSON body to schedule reminder
     """
-    sys_prompt = """Your job is to create the JSON body for an API call to schedule texts and calls. Then , you will schedule the text or call for the user will request based on pacific time (given in pacific time). If user asks for a reminder today at 6 pm that is 18:00 (24 hour notation).
+    sys_prompt = """Your job is to create the JSON body for an API call to schedule texts and calls. Then , you will schedule the text or call for the user will request based on pacific time (given in pacific time). If user asks for a reminder today at 6 pm that is 18:00 (24 hour notation). Set the 'to_number' to the users number. Always set twilio = True.
 
-    If the user requests to be called or messaged on their work phone, set to_phone variable to '+12221110000' else send it to default phone '+15554443333'. Use twilio = True by default.
-
-    Example endpoint: http://YOUR-ENDPOINT.elasticbeanstalk.com/schedule_single_reminder
-    Example call:
+    Example JSON:
     {
     "time": "18:20",
     "day": "2023-11-27",
@@ -125,7 +122,7 @@ def schedule_reminder(natural_language_request):
     "to_number": "+15554443333"
     }
 
-    Example message:
+    Another example:
     {
         "time":"23:46",
         "day":"2023-11-27",
@@ -141,7 +138,7 @@ def schedule_reminder(natural_language_request):
             model="gpt-3.5-turbo-1106",
             messages=[
                 {"role": "system", "content": f"{sys_prompt}"},
-                {"role": "user", "content": f"{natural_language_request}. <Current Time>: {curr_time}"},
+                {"role": "user", "content": f"{natural_language_request}. <User's number> {number_from} <Current Time>: {curr_time}"},
             ],
             response_format={ "type": "json_object" },
         )
@@ -168,11 +165,11 @@ def get_follow_up_text(send_to, send_from, incoming_message):
     message : str
         Response from the AI to the user
     """
-    if incoming_message == 'yolo':
-        return """Welcome back lord overlord Luis.
-        - I can schedule calls, texts, and reminders for you.
-        - I can also just answer questions or anything like that.
-        - Text 'yolo' to see this message again"""
+    if incoming_message == 'hess':
+        return """Welcome to Hess Services new AI assistant.
+        - I can schedule calls and text reminders for you.
+        - I can answer any questions, within reason.
+        - Text 'hess' to see this message again"""
     else:
         tools = [
                     {
@@ -186,7 +183,11 @@ def get_follow_up_text(send_to, send_from, incoming_message):
                             "natural_language_request": {
                                 "type": "string",
                                 "description": "Requested reminder in natural language. Example: 'Remind me to call mom tomorrow at 6pm' or 'Send me a message with a Matrix quote on wednesday at 8am'",
-                            }
+                                },
+                            "number_from": {
+                                "type": "string",
+                                "description": "Phone number to send text from. Example: '+15554443333'"
+                                }
                             },
                             "required": ["natural_language_request"],
                         },
@@ -222,7 +223,7 @@ def get_follow_up_text(send_to, send_from, incoming_message):
                     # Schedule reminder
                     #--------------------------------#
                     json_body = schedule_reminder(**args_dict)
-                    url_endpoint = "http://YOUR-ENDPOINT.elasticbeanstalk.com/schedule_single_reminder"
+                    url_endpoint = os.environ["AMAZON_ENDPOINT"]
                     headers = {'Content-Type': 'application/json'}
                     response = requests.post(url_endpoint, headers=headers, data=json.dumps(json_body))
                     if response.status_code == 200:

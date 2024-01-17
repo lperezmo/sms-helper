@@ -16,6 +16,8 @@ sentry_sdk.init(
     # For initial testing capture 100% of transactions for monitoring
     traces_sample_rate=1.0,
 )
+ACCOUNT_SID = os.environ["ACCOUNT_SID"]
+
 
 #------------------------------------#
 # Main function
@@ -28,22 +30,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     incoming_message = req.params["Body"].lower().strip()
 
     # Reply to the user based on the incoming message
-    helper.process_incoming_message(os.environ["SECURITY_PIN"], 
-                                        send_to, 
-                                        send_from, 
-                                        incoming_message)
+    # helper.process_incoming_message(os.environ["SECURITY_PIN"], 
+    #                                     send_to, 
+    #                                     send_from, 
+    #                                     incoming_message)
 
-    return func.HttpResponse(
-        "You can text this number again if you need more information. (LPM)", status_code=200
-    )
+    # return func.HttpResponse(
+    #     "You can text this number again if you need more information. (LPM)", status_code=200
+    # )
     
     #--------------------------------------------------------------------------#
     # To reduce the number of messages you could use the 'alternative_helper'
     # This one returns the response message as the HttpResponse. 
     #--------------------------------------------------------------------------#
     
-    # response_for_user = alternative_helper.process_incoming_message(os.environ["SECURITY_PIN"],
-    #                                                                     send_to,
-    #                                                                     send_from,
-    #                                                                     incoming_message)
-    # return func.HttpResponse(response_for_user, status_code=200)
+    response_for_user = alternative_helper.process_incoming_message(os.environ["SECURITY_PIN"],
+                                                                        send_to,
+                                                                        send_from,
+                                                                        incoming_message)
+    return func.HttpResponse(response_for_user, status_code=200)
