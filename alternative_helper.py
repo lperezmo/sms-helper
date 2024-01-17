@@ -184,10 +184,6 @@ def get_follow_up_text(send_to, send_from, incoming_message):
                             "natural_language_request": {
                                 "type": "string",
                                 "description": "Requested reminder in natural language. Example: 'Remind me to call mom tomorrow at 6pm' or 'Send me a message with a Matrix quote on wednesday at 8am'",
-                                },
-                            "number_from": {
-                                "type": "string",
-                                "description": "Phone number to send text from. Example: '+15554443333'"
                                 }
                             },
                             "required": ["natural_language_request"],
@@ -223,12 +219,12 @@ def get_follow_up_text(send_to, send_from, incoming_message):
                     #--------------------------------#
                     # Schedule reminder
                     #--------------------------------#
-                    json_body = schedule_reminder(**args_dict)
+                    json_body = schedule_reminder(**args_dict, number_from=send_to)
                     url_endpoint = os.environ["AMAZON_ENDPOINT"]
                     headers = {'Content-Type': 'application/json'}
                     response = requests.post(url_endpoint, headers=headers, data=json.dumps(json_body))
                     if response.status_code == 200:
-                        return "Your reminder has been scheduled."
+                        return f"Your reminder has been scheduled to be sent to {send_to}"
                 except Exception as e:
                     logging.error(f"Error: {e}")
-                    return "Error scheduling reminder."
+                    return f"Error scheduling reminder. {e}"
