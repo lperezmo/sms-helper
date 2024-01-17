@@ -21,7 +21,7 @@ CLIENT = Client(ACCOUNT_SID, AUTH_TOKEN)
 #------------------------------------#
 # Security check
 #------------------------------------#
-def check_pin_and_reply(PIN, incoming_message):
+def process_incoming_message(PIN, incoming_message, send_to, send_from):
     """
     Generate a reply based on the incoming message.
     
