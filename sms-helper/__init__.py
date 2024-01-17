@@ -42,7 +42,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # This one returns the response message as the HttpResponse. 
     #--------------------------------------------------------------------------#
     
-    response_for_user = alternative_helper.process_incoming_message(os.environ["SECURITY_PIN"],
+    response_for_user = alternative_helper.process_incoming_message(alternative_helper.SEC_PIN,
                                                                         send_to,
                                                                         send_from,
                                                                         incoming_message)

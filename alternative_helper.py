@@ -11,6 +11,7 @@ from twilio.rest import Client
 #------------------------------------#
 ACCOUNT_SID = os.environ["ACCOUNT_SID"]
 AUTH_TOKEN = os.environ["AUTH_TOKEN"]
+SEC_PIN = os.environ["SECURITY_PIN"]
 
 #------------------------------------#
 # OpenAI and Twilio Clients
@@ -21,14 +22,14 @@ CLIENT = Client(ACCOUNT_SID, AUTH_TOKEN)
 #------------------------------------#
 # Security check
 #------------------------------------#
-def process_incoming_message(PIN, incoming_message, send_to, send_from):
+def process_incoming_message(security_pin, incoming_message, send_to, send_from):
     """
     Generate a reply based on the incoming message.
     
     Parameters
     ----------
-    PIN : str
-        Security PIN
+    security_pin : str
+        Security security_pin
     incoming_message : str
         Incoming message from Twilio
     
@@ -37,7 +38,7 @@ def process_incoming_message(PIN, incoming_message, send_to, send_from):
     message : str
         Reply message
     """
-    if incoming_message.strip() == PIN:
+    if incoming_message.strip() == security_pin:
         return """Welcome to Hess Services AI Assistant.
     - I can schedule calls and text reminders for you.
     - I can also just answer questions, within reason.
@@ -46,13 +47,13 @@ def process_incoming_message(PIN, incoming_message, send_to, send_from):
         messages = CLIENT.messages.list(from_=send_to, to=send_from)
         sent_pin = False
         for message in messages:
-            if message.body.strip() == PIN:
+            if message.body.strip() == security_pin:
                 sent_pin = True
         if sent_pin:
             follow_up_reply = get_follow_up_text(incoming_message)
             return follow_up_reply
         else:
-            return "Please provide security PIN to continue"
+            return f"Please provide security PIN to continue. Hint: {security_pin}"
 
 #------------------------------------#
 # Current time
