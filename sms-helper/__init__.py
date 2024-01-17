@@ -16,8 +16,6 @@ sentry_sdk.init(
     # For initial testing capture 100% of transactions for monitoring
     traces_sample_rate=1.0,
 )
-ACCOUNT_SID = os.environ["ACCOUNT_SID"]
-
 
 #------------------------------------#
 # Main function
