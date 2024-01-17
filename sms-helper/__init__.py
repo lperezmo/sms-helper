@@ -41,9 +41,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # To reduce the number of messages you could use the 'alternative_helper'
     # This one returns the response message as the HttpResponse. 
     #--------------------------------------------------------------------------#
-    
-    response_for_user = alternative_helper.process_incoming_message(alternative_helper.SEC_PIN,
-                                                                        send_to,
-                                                                        send_from,
-                                                                        incoming_message)
-    return func.HttpResponse(response_for_user, status_code=200)
+    pin = alternative_helper.SEC_PIN
+    res = alternative_helper.process_incoming_message(PIN=pin,
+                incoming_message=incoming_message,
+                send_to=send_to,
+                send_from=send_from)
+    return func.HttpResponse(res, status_code=200)

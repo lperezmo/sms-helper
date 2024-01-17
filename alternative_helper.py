@@ -22,14 +22,14 @@ CLIENT = Client(ACCOUNT_SID, AUTH_TOKEN)
 #------------------------------------#
 # Security check
 #------------------------------------#
-def process_incoming_message(security_pin, incoming_message, send_to, send_from):
+def process_incoming_message(PIN, incoming_message, send_to, send_from):
     """
     Generate a reply based on the incoming message.
     
     Parameters
     ----------
-    security_pin : str
-        Security security_pin
+    PIN : str
+        Security PIN
     incoming_message : str
         Incoming message from Twilio
     
@@ -38,7 +38,7 @@ def process_incoming_message(security_pin, incoming_message, send_to, send_from)
     message : str
         Reply message
     """
-    if incoming_message.strip() == security_pin:
+    if incoming_message.strip() == PIN:
         return """Welcome to Hess Services AI Assistant.
     - I can schedule calls and text reminders for you.
     - I can also just answer questions, within reason.
@@ -47,13 +47,13 @@ def process_incoming_message(security_pin, incoming_message, send_to, send_from)
         messages = CLIENT.messages.list(from_=send_to, to=send_from)
         sent_pin = False
         for message in messages:
-            if message.body.strip() == security_pin:
+            if message.body.strip() == PIN:
                 sent_pin = True
         if sent_pin:
             follow_up_reply = get_follow_up_text(incoming_message)
             return follow_up_reply
         else:
-            return f"Please provide security PIN to continue. Hint: {security_pin}"
+            return f"Please provide security PIN to continue. Hint: {PIN}"
 
 #------------------------------------#
 # Current time
