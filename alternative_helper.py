@@ -39,10 +39,10 @@ def process_incoming_message(PIN, incoming_message, send_to, send_from):
         Reply message
     """
     if incoming_message.strip() == PIN:
-        return """Welcome to Hess Services AI Assistant.
-    - I can schedule calls and text reminders for you.
-    - I can also just answer questions, within reason.
-    - Text 'hess' to see this message again"""
+        return """Welcome to the new Luis AI reminder assistant.
+  - I can schedule calls and text reminders for you.
+  - I can also just answer questions.
+  - Text 'info' to see this message again"""
     else:
         messages = CLIENT.messages.list(from_=send_to, to=send_from)
         sent_pin = False
@@ -166,11 +166,11 @@ def get_follow_up_text(send_to, send_from, incoming_message):
     message : str
         Response from the AI to the user
     """
-    if incoming_message == 'hess':
-        return """Welcome to Hess Services new AI assistant.
-        - I can schedule calls and text reminders for you.
-        - I can answer any questions, within reason.
-        - Text 'hess' to see this message again"""
+    if incoming_message == 'info':
+        return """Welcome to the new Luis AI reminder assistant.
+    - I can schedule calls and text reminders for you.
+    - I can answer any questions, within reason.
+    - Text 'info' to see this message again"""
     else:
         tools = [
                     {
