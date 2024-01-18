@@ -42,7 +42,7 @@ def process_incoming_message(PIN, incoming_message, send_to, send_from):
         return """Welcome to the new Luis AI reminder assistant.
   - I can schedule calls and text reminders for you.
   - I can also just answer questions.
-  - Text 'info' to see this message again"""
+  - Text 'about' to see this message again"""
     else:
         messages = CLIENT.messages.list(from_=send_to, to=send_from)
         sent_pin = False
@@ -55,7 +55,7 @@ def process_incoming_message(PIN, incoming_message, send_to, send_from):
                                     incoming_message=incoming_message)
             return follow_up_reply
         else:
-            return f"Please provide security PIN to continue. Hint: {PIN}"
+            return f"Please provide security PIN to continue."
 
 #------------------------------------#
 # Current time
@@ -166,11 +166,11 @@ def get_follow_up_text(send_to, send_from, incoming_message):
     message : str
         Response from the AI to the user
     """
-    if incoming_message == 'info':
+    if incoming_message == 'about':
         return """Welcome to the new Luis AI reminder assistant.
     - I can schedule calls and text reminders for you.
     - I can answer any questions, within reason.
-    - Text 'info' to see this message again"""
+    - Text 'about' to see this message again"""
     else:
         tools = [
                     {
