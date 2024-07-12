@@ -3,8 +3,8 @@ import logging
 import sentry_sdk
 import azure.functions as func
 # import __app__.helper as helper
-# Use alternative helper to send less messages
-import __app__.alternative_helper as alternative_helper
+# import __app__.alternative_helper as alternative_helper
+import __app__.onsite_helper as onsite_helper
 from sentry_sdk.integrations.serverless import serverless_function
 
 #------------------------------------#
@@ -27,7 +27,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     send_from = req.params["To"]
     incoming_message = req.params["Body"].lower().strip()
 
-    # Reply to the user based on the incoming message
+    #--------------------------------------------------------------------------#
+    # Uncomment for use with helper.py
+    #--------------------------------------------------------------------------#
     # helper.process_incoming_message(os.environ["SECURITY_PIN"], 
     #                                     send_to, 
     #                                     send_from, 
@@ -38,11 +40,25 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # )
     
     #--------------------------------------------------------------------------#
-    # To reduce the number of messages you could use the 'alternative_helper'
-    # This one returns the response message as the HttpResponse. 
+    # Uncomment for use with alternative_helper.py
+    # Reduces the number of messages send, returns the response message 
+    # as the HttpResponse. 
     #--------------------------------------------------------------------------#
-    pin = alternative_helper.SEC_PIN
-    res = alternative_helper.process_incoming_message(PIN=pin,
+    # pin = alternative_helper.SEC_PIN
+    # res = alternative_helper.process_incoming_message(PIN=pin,
+    #             incoming_message=incoming_message,
+    #             send_to=send_to,
+    #             send_from=send_from)
+    # return func.HttpResponse(res, status_code=200)
+
+    #--------------------------------------------------------------------------#
+    # Uncomment for use with onsite_helper.py
+    # This saves messages to AWS database, and then the messages are
+    # processed internally at HSI. This way we can reply with internal
+    # info + use local AI models + secure databases.
+    #--------------------------------------------------------------------------#
+    pin = onsite_helper.SEC_PIN
+    res = onsite_helper.process_incoming_message(PIN=pin,
                 incoming_message=incoming_message,
                 send_to=send_to,
                 send_from=send_from)
