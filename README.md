@@ -16,18 +16,18 @@ SMS Helper is an AI-powered, function-calling text assistant designed to process
     - `AUTH_TOKEN`
     - `OPENAI_API_KEY`
     - `SENTRY_DSN`
-    
-    <img src="images\azure_func_env_variables.png" alt="Setting Env variables in Azure">
+    ![Setting Env variables in Azure"](https://github.com/lperezmo/sms-helper/blob/main/images/azure_func_env_variables.png?raw=true)
+
 2. In VS Code, install the Azure Functions extension (this will make it way easier).
 
-    <img src="images\extension.png" alt="Extension" width="200">
+    ![Extension](https://github.com/lperezmo/sms-helper/blob/main/images/extension.png?raw=true)
 
 3. Open the folder where this repo is located.
     * **(Optional)** Edit `__init__.py` code to use alternative helper if you want to send less messages per request.
     * **(Optional)** If using the 'schedule reminders' function, edit system message and API call to get the current time and date if you want something different than pacific time.
 4. Go to the extension, and under 'Workspace' click on the little thunder sign and select 'Deploy to existing function...'.
 
-    <img src="images\deploy.png" alt="Deploy">
+    ![Deploy](https://github.com/lperezmo/sms-helper/blob/main/images/deploy.png?raw=true)
 
 5. Follow the prompts and done. Get your URL endpoint from Azure & load on Twilio.
 
@@ -38,7 +38,7 @@ SMS Helper is an AI-powered, function-calling text assistant designed to process
 2. Go to Phone Numbers > Manage > Active Numbers > Your number > Messaging configuration.
 3. Set when a message comes in to use a webhook with your Azure Function endpoint (see image below)
 
-    <img src="images\messaging_configuration.png" alt="Twilio config">
+    ![Twilio config](https://github.com/lperezmo/sms-helper/blob/main/images/messaging_configuration.png?raw=true)
 
 *Note: Your endpoint will look like this:
 `https://YOUR-FUNCTION-NAME.azurewebsites.net/api/sms_helper`*
