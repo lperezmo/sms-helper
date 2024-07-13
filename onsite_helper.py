@@ -4,6 +4,7 @@ import boto3
 import logging
 import requests
 from openai import OpenAI
+from datetime import datetime
 import azure.functions as func
 from twilio.rest import Client
 
@@ -109,4 +110,5 @@ def get_follow_up_text(send_to, send_from, incoming_message):
     - Text 'about' to see this message again"""
     else:
         result = save_sms_to_sqs(send_to, incoming_message)
-        return 'Processing reply...'
+        # Receive incoming messages without sending a reply
+        return ''

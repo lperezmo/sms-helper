@@ -11,6 +11,7 @@ SMS Helper is an AI-powered, function-calling text assistant designed to process
 
 ## Deploy on Azure (VS Code)
 1. Create an Azure account & create a function with all defaults (Python).
+    * **(Optional)** You can also just create using the Azure functions extension on VS code, see step 3.
 2. Create required environment variables on your function.
     - `ACCOUNT_SID`
     - `AUTH_TOKEN`
@@ -18,19 +19,23 @@ SMS Helper is an AI-powered, function-calling text assistant designed to process
     - `SENTRY_DSN`
     ![Setting Env variables in Azure"](https://github.com/lperezmo/sms-helper/blob/main/images/azure_func_env_variables.png?raw=true)
 
-2. In VS Code, install the Azure Functions extension (this will make it way easier).
+3. In VS Code, install the Azure Functions extension (this will make it way easier).
 
     ![Extension](https://github.com/lperezmo/sms-helper/blob/main/images/extension.png?raw=true)
 
-3. Open the folder where this repo is located.
+4. Open the folder where this repo is located.
     * **(Optional)** Edit `__init__.py` code to use alternative helper if you want to send less messages per request.
     * **(Optional)** If using the 'schedule reminders' function, edit system message and API call to get the current time and date if you want something different than pacific time.
-4. Go to the extension, and under 'Workspace' click on the little thunder sign and select 'Deploy to existing function...'.
+5. Go to the extension, and under 'Workspace' click on the little thunder sign and select 'Deploy to existing function...'.
 
     ![Deploy](https://github.com/lperezmo/sms-helper/blob/main/images/deploy.png?raw=true)
 
-5. Follow the prompts and done. Get your URL endpoint from Azure & load on Twilio.
+6. Follow the prompts and done. Get your URL endpoint from Azure & load on Twilio.
 
+## Build & Deploy to Azure using Github Actions
+Follow instructions here to enable updating your Azure function when edits are made on Github repo: 
+
+* [How to use GitHub Actions for Azure Functions](https://learn.microsoft.com/en-us/azure/azure-functions/functions-how-to-github-actions?tabs=linux%2Cdotnet&pivots=method-manual)
 
 
 ## Load on Twilio
