@@ -104,10 +104,9 @@ def get_follow_up_text(send_to, send_from, incoming_message):
         Response from the AI to the user
     """
     if incoming_message == 'about':
-        return """Welcome to the new Luis AI reminder assistant.
-    - I can schedule calls and text reminders for you.
-    - I can answer any questions, within reason.
-    - Text 'about' to see this message again"""
+        return """Welcome to the new internal Hess Services SMS AI service.
+  - I can lookup general information about jobs, parts, sales orders, inventory on hand, serial numbers, etc.
+  - Text 'about' to see this message again"""
     else:
         result = save_sms_to_sqs(send_to, incoming_message)
         # Receive incoming messages without sending a reply
