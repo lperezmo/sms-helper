@@ -10,12 +10,14 @@ from twilio.rest import Client
 #------------------------------------#
 # Load environment variables
 #------------------------------------#
+ACCOUNT_SID = os.environ["ACCOUNT_SID"]
+AUTH_TOKEN = os.environ["AUTH_TOKEN"]
 SEC_PIN = os.environ["SECURITY_PIN"]
 
 #------------------------------------#
 # Twilio Client
 #------------------------------------#
-CLIENT = Client()
+CLIENT = Client(ACCOUNT_SID, AUTH_TOKEN)
 
 #------------------------------------#
 # Initialize SQS client
