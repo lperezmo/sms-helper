@@ -66,8 +66,8 @@ def process_incoming_message(PIN, incoming_message, send_to, send_from):
     """
     if incoming_message.strip() == PIN:
         return """Welcome to the new internal Hess Services SMS AI service.
-  - I can lookup general information about jobs, parts, sales orders,
-  - among others.
+  - I can lookup general information about jobs, parts, parts where used, inventory on hand, serial numbers, etc.
+  - I can also email you.
   - Text 'about' to see this message again"""
     else:
         messages = CLIENT.messages.list(from_=send_to, to=send_from)
@@ -105,7 +105,8 @@ def get_follow_up_text(send_to, send_from, incoming_message):
     """
     if incoming_message == 'about':
         return """Welcome to the new internal Hess Services SMS AI service.
-  - I can lookup general information about jobs, parts, sales orders, inventory on hand, serial numbers, etc.
+  - I can lookup general information about jobs, parts, parts where used, inventory on hand, serial numbers, etc.
+  - I can also email you.
   - Text 'about' to see this message again"""
     else:
         result = save_sms_to_sqs(send_to, incoming_message)
