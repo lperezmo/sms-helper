@@ -27,6 +27,40 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     send_from = req.params["To"]
     incoming_message = req.params["Body"].lower().strip()
 
+
+    #--------------------------------------------------------------------------#
+    # Uncomment for use with onsite_helper.py
+    # This saves messages to AWS database, and then the messages are
+    # processed internally at HSI. This way we can reply with internal
+    # info + use local AI models + secure databases.
+    #--------------------------------------------------------------------------#
+    # Extracting media URLs from Twilio request
+    num_media = int(req.params.get("NumMedia", 0))
+    image_urls = []
+    audio_urls = []
+
+    for i in range(num_media):
+        media_content_type = req.params.get(f"MediaContentType{i}")
+        media_url = req.params.get(f"MediaUrl{i}")
+        
+        if media_content_type and media_url:
+            if media_content_type.startswith("image/"):
+                image_urls.append(media_url)
+            elif media_content_type.startswith("audio/"):
+                audio_urls.append(media_url)
+
+    pin = onsite_helper.SEC_PIN
+    res = onsite_helper.process_incoming_message(
+                PIN=pin,
+                incoming_message=incoming_message,
+                send_to=send_to,
+                send_from=send_from,
+                image_urls=image_urls,
+                audio_urls=audio_urls
+        )
+    return func.HttpResponse(res, status_code=200)
+
+
     #--------------------------------------------------------------------------#
     # Uncomment for use with helper.py
     #--------------------------------------------------------------------------#
@@ -50,16 +84,3 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #             send_to=send_to,
     #             send_from=send_from)
     # return func.HttpResponse(res, status_code=200)
-
-    #--------------------------------------------------------------------------#
-    # Uncomment for use with onsite_helper.py
-    # This saves messages to AWS database, and then the messages are
-    # processed internally at HSI. This way we can reply with internal
-    # info + use local AI models + secure databases.
-    #--------------------------------------------------------------------------#
-    pin = onsite_helper.SEC_PIN
-    res = onsite_helper.process_incoming_message(PIN=pin,
-                incoming_message=incoming_message,
-                send_to=send_to,
-                send_from=send_from)
-    return func.HttpResponse(res, status_code=200)
