@@ -25,7 +25,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     # These variables are from the Twilio request.
     send_to = req.params["From"]
     send_from = req.params["To"]
-    incoming_message = req.params["Body"].lower().strip()
+    incoming_message = req.params.get("Body", "").lower().strip()
 
 
     #--------------------------------------------------------------------------#
